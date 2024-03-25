@@ -1,5 +1,5 @@
 
-from flask import Flask, request, send_file, render_template, jsonify
+from flask import Flask, request, send_file, render_template, jsonify,flash , redirect
 import io
 from PIL import Image, ImageFilter, ImageEnhance, ImageOps, ImageDraw
 import os
@@ -14,12 +14,29 @@ from io import BytesIO
 # Starting the app
 app = Flask(__name__)
 
+
 uploaded_image = None
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index1.html', uploaded_image=uploaded_image)
-
+    global uploaded_image
+    
+    # Check if an image is uploaded
+    if request.method == 'POST' and 'image' in request.files:
+        file = request.files['image']
+        
+        # Check if file is selected
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'})
+        
+        # Read the uploaded image and store it
+        uploaded_image = file.read()
+    
+    # Convert the uploaded image to base64 encoding if available
+    encoded_image = base64.b64encode(uploaded_image).decode('utf-8') if uploaded_image else ""
+    
+    # Render the template with the uploaded image
+    return render_template('index1.html', uploaded_image=encoded_image)
 @app.route('/upload', methods=['POST','GET'])
 def upload_image():
     global uploaded_image
@@ -38,7 +55,8 @@ def upload_image():
     encoded_image = base64.b64encode(jpeg_data).decode('utf-8')
     
     return render_template('index1.html', uploaded_image=encoded_image)
-    
+
+
 
 @app.route('/crop', methods=['POST'])
 def crop_image():
@@ -143,15 +161,6 @@ def adjust_brightness():
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
     
-    # Encode the modified image as base64
-    # modified_image_data = base64.b64encode(img_io.getvalue()).decode()
-    
-    # # Encode the original image as base64
-    # original_img_io = io.BytesIO(uploaded_image)
-    # original_image_data = base64.b64encode(original_img_io.getvalue()).decode()
-    
-    # # Return the modified image data and original image data as JSON response
-    # return jsonify({'img_data': modified_image_data, 'orig_img_data': original_image_data})
 
 @app.route("/about")
 def about():
