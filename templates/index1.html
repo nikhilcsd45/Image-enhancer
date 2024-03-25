@@ -8,26 +8,38 @@
     <style>
         /* Navbar */
 /* Navbar */
+
+body{
+    background-color:rgb(210, 210, 210);
+}
+/* Navbar */
 .navbar {
-    background-color: #414343;
+    background-color: rgb(210, 163, 171);
     overflow: hidden;
-    border-radius: 10px;  
+    border-radius: 10px;
+    align-items:center; 
 }
 
-.website_name {
-    text-align: center;
+#website_name {
+    text-align: center;   
+}
+#H{
+    align-items:center;
 }
 
-.hca {
-    text-align: right;
+.hca a:hover {
+    background-color: #0056b3;
+    color: #ffffff;
 }
 
+/* 
 .hca a {
     margin-right: 40px;
-    text-decoration: none;
     color: black;
     transition: color 0.9s;
-}
+    text-align:center;
+    
+} */
 
 .hca a:hover {
     color: red;
@@ -42,17 +54,23 @@
 }
 
 .navbar-logo img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 10px;
 }
 
-.navbar a {
+.hca a {
     float: right;
-    display: block;
-    color: #f2f2f2;
-    padding: 5px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
     text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid #007bff;
+    transition: background-color 0.3s, color 0.3s;
+    
+    
 }
 
 .navbar a:hover {
@@ -182,7 +200,7 @@ d_image form {
 <div class="container">
     <div class="navbar">
             <div class="navbar-logo">
-                <img src="logo.jpeg" alt="Website Logo">
+                <img src="/static/logo.png" alt="Navbar Image">
             </div>
             <h1 id="website_name">Image Processing App</h1>
         <div class="hca">
@@ -211,7 +229,7 @@ d_image form {
   
     
     <div class="changing-image-container">
-        <h2>Changing Image:</h2>
+        <h2>Filtered Image:</h2>
         <img id="changing_image" class="changing-image" src="" alt="Changing Image"  width="500">
     
         <!-- Handles -->
@@ -291,10 +309,10 @@ d_image form {
                         <label for="crop-select">Select Special Crop:</label>
                         <select id="crop-select" onchange="cropImage(this.value)">
                             <option value="">Select...</option>
-                            <option value="JEE">For JEE</option>
-                            <option value="NEET">For NEET</option>
-                            <option value="Aadhaar">For Aadhaar</option>
-                            <option value="PAN">For PAN</option>
+                            <option value="JEE">JEE</option>
+                            <option value="NEET">NEET</option>
+                            <option value="Aadhaar">AADHAR CARD</option>
+                            <option value="PAN">PAN CARD</option>
                         </select>
                     </form>
                 </div>
