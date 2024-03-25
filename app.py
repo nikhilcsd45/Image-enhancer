@@ -1,22 +1,14 @@
-
-from flask import Flask, request, send_file, render_template, jsonify,flash , redirect
+from flask import Flask, request, send_file, render_template, jsonify, flash, redirect
 import io
-from PIL import Image, ImageFilter, ImageEnhance, ImageOps, ImageDraw
-import os
-import tempfile  
-from tkinter import Tk, Canvas, Button, NW, filedialog
-from PIL import Image, ImageTk
+from PIL import Image, ImageFilter, ImageEnhance
 import base64
-from io import BytesIO
-
-
 
 # Starting the app
 app = Flask(__name__)
 
-
 uploaded_image = None
 
+# Render index page
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global uploaded_image
@@ -37,6 +29,8 @@ def index():
     
     # Render the template with the uploaded image
     return render_template('index1.html', uploaded_image=encoded_image)
+
+# Upload image route
 @app.route('/upload', methods=['POST','GET'])
 def upload_image():
     global uploaded_image
@@ -56,8 +50,7 @@ def upload_image():
     
     return render_template('index1.html', uploaded_image=encoded_image)
 
-
-
+# Crop image route
 @app.route('/crop', methods=['POST'])
 def crop_image():
     global uploaded_image
@@ -90,6 +83,7 @@ def crop_image():
         img_io.seek(0)
         return send_file(img_io, mimetype='image/jpeg')
 
+# Rotate image route
 @app.route("/rotate", methods=["POST"])
 def rotate_image():
     global uploaded_image
@@ -101,6 +95,7 @@ def rotate_image():
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
 
+# Flip image route
 @app.route("/flip", methods=["POST"])
 def flip_image():
     global uploaded_image
@@ -115,6 +110,7 @@ def flip_image():
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
 
+# Apply blur route
 @app.route("/blur", methods=["POST"])
 def apply_blur():
     global uploaded_image
@@ -129,6 +125,7 @@ def apply_blur():
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
 
+# Adjust contrast route
 @app.route("/contrast", methods=["POST"])
 def adjust_contrast():
     global uploaded_image
@@ -141,6 +138,7 @@ def adjust_contrast():
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
 
+# Adjust brightness route
 @app.route('/bright', methods=['POST'])
 def adjust_brightness():
     global uploaded_image
@@ -160,26 +158,21 @@ def adjust_brightness():
     modified_image.save(img_io, format='JPEG')
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
-    
 
+# About route
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-
+# Contact route
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+# Home route
 @app.route("/home")
-def home() :
+def home():
     return render_template("index1.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-
-
